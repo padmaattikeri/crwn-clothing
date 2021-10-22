@@ -1,10 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Route } from 'react-router-dom';
-import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-
-
-import WithSpinner from '../../components/with-spinner/with-spinner.component';
 
 //import { fetchCollectionsStartAsync } from '../../redux/shop/shop.actions';
 import { fetchCollectionsStart } from '../../redux/shop/shop.actions';
@@ -14,32 +10,11 @@ import CollectionContainer from '../collection/collection.container';
 //const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
 //const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 
-class ShopPage extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            isLoading:false
-        }
-    }
+const ShopPage = ({fetchCollectionsStart, match}) => {
+  useEffect(()=>{
+    fetchCollectionsStart()
+  },[fetchCollectionsStart]);   
   
-  componentDidMount() {
-    //const { updateCollections } = this.props;
-    // const collectionRef = firestore.collection('collections');
-    
-    
-    // collectionRef.get().then((snapshot) => {
-    //   const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-    //   updateCollections(collectionsMap);
-    //   this.setState({loading:false});
-    // });
-
-    const {fetchCollectionsStart} = this.props;
-    fetchCollectionsStart();
-  }
-
-  render() {
-    const { match } = this.props;
-
     return (
       <div className='shop-page'>
         <Route exact path={`${match.path}`} 
@@ -55,8 +30,7 @@ class ShopPage extends React.Component {
             component = { CollectionContainer } 
         />
       </div>
-    );
-  }
+    );  
 }
 
 const mapDispatchToProps = (dispatch) => ({
